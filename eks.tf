@@ -1,7 +1,5 @@
 module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  source = "git::https://github.com/yadatascientest/eks-terraform.git?ref=e971580…99a4da6"
-  version = "3.14.3"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=26c38a66f12e7c6c93b6a2ba127ad68981a48671"  # commit hash of version 5.0.0
 
   name = "main"
   cidr = "10.0.0.0/16"
