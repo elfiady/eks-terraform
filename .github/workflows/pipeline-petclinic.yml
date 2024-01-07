@@ -35,5 +35,5 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: eks-terraform
+          directory: ../eks-terraform
           framework: terraform 
