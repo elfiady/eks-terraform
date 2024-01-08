@@ -1,6 +1,5 @@
 module "vpc" {
-  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=26c38a66f12e7c6c93b6a2ba127ad68981a48671"  # commit hash of version 5.0.0
-
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=26c38a66f12e7c6c93b6a2ba127ad68981a48671"
   name = "main"
   cidr = "10.0.0.0/16"
 
@@ -20,7 +19,7 @@ module "vpc" {
 
 
 module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
+  source = "git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git?ref=26c38a66f12e7c6c93b6a2ba127ad68981a48671" 
   version = "19.15.0"
 
   cluster_name    = "my-eks"
