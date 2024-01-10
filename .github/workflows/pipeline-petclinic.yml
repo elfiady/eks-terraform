@@ -71,4 +71,11 @@ jobs:
             aws-region: eu-west-3
             role-session-name: GithubActionsSession-${{ env.CLUSTER_ID }}
 
+      - name: Create infrastructure
+        id: create-infrastructure
+        env:
+         AWS_REGION: eu-west-3
+        run: |
+         make create-infrastructure environment="$CLUSTER_ID"
+
       
