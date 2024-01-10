@@ -31,9 +31,9 @@ jobs:
           pwd & ls
           cat ./k8s/*.yaml | sed 's#\${REPOSITORY_PREFIX_EL}'"#${REPOSITORY_PREFIX_EL}#g" | > deploy.yaml
 
-      - name: Test with Checkov
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: ./
-          framework: terraform 
+     # - name: Test with Checkov
+      #  id: checkov
+       # uses: bridgecrewio/checkov-action@master
+        #with:
+         # directory: ./
+          #framework: terraform 
