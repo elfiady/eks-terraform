@@ -54,4 +54,13 @@ jobs:
           chmod +x ${HOME}/.local/bin/*
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
+      - name: Set cluster ID
+        env:
+          RUN_ID: "${{ github.job }}"
+          AWS_REGION: "${{ secrets.AWS_REGION }}"
+        run: |
+          CLUSTER_ID=$(echo $RANDOM | md5sum | head -c 8)
+          echo "Using cluster ID ${CLUSTER_ID}"
+          echo "CLUSTER_ID=$CLUSTER_ID" >> $GITHUB_ENV
+
       
