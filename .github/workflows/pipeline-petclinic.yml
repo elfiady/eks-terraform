@@ -51,9 +51,7 @@ jobs:
          wget -q https://github.com/eksctl-io/eksctl/releases/download/v0.164.0/eksctl_Linux_amd64.tar.gz
          tar zxf eksctl_Linux_amd64.tar.gz
          mv eksctl ${HOME}/.local/bin
-
-        chmod +x ${HOME}/.local/bin/*
-
-        echo "${HOME}/.local/bin" >> $GITHUB_PATH
+         chmod +x ${HOME}/.local/bin/*
+         echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
       
