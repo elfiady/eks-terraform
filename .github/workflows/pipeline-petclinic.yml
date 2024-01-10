@@ -76,6 +76,6 @@ jobs:
         env:
          AWS_REGION: eu-west-3
         run: |
-         make AWSServiceRoleForAmazonEKS environment="$CLUSTER_ID"
+         make create-infrastructure environment="$CLUSTER_ID"
 
       
