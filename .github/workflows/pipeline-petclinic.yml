@@ -12,7 +12,6 @@ on:
     paths:
       - /**
 
-
 jobs:
   terraform:
     name: 'Terraform'
