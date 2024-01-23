@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: MPL-2.0
 
 terraform {
-
   cloud {
+    organization = "ORGANIZATION",
     workspaces {
       name = "learn-terraform-eks"
     }
