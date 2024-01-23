@@ -1,7 +1,4 @@
-variable "region" {
-  default     = "eu-west-3"
-  description = "AWS region"
-}
+
 
 provider "aws" {
   region = "eu-west-3"
