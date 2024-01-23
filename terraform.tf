@@ -3,7 +3,7 @@
 
 terraform {
   cloud {
-    organization = "ORGANIZATION",
+    organization = "ORGANIZATION"
     workspaces {
       name = "learn-terraform-eks"
     }
