@@ -1,54 +1,79 @@
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "3.14.3"
+
+  name = "main"
+  cidr = "10.0.0.0/16"
+
+  azs             = ["eu-west-3a", "eu-west-3b"]
+  private_subnets = ["10.0.0.0/19", "10.0.32.0/19"]
+  public_subnets  = ["10.0.64.0/19", "10.0.96.0/19"]
+  enable_nat_gateway     = true
+  single_nat_gateway     = false
+  one_nat_gateway_per_az = true
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = {
+    Environment = "vpc-production"
+  }
+}
+
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.16"
+  version = "19.15.0"
 
-  cluster_name                   = var.cluster_name
-  cluster_version                = var.cluster_version
-  cluster_endpoint_public_access = true
+  cluster_name    = "my-eks"
+  cluster_version = "1.24"
 
-  cluster_addons = {
-    vpc-cni = {
-      before_compute = true
-      most_recent    = true
-      configuration_values = jsonencode({
-        env = {
-          ENABLE_POD_ENI                    = "true"
-          ENABLE_PREFIX_DELEGATION          = "true"
-          POD_SECURITY_GROUP_ENFORCING_MODE = "standard"
-        }
-
-        enableNetworkPolicy = "true"
-      })
-    }
-  }
+  cluster_endpoint_private_access = true
+  cluster_endpoint_public_access  = true
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
-  create_cluster_security_group = false
-  create_node_security_group    = false
+  enable_irsa = true
+
+  eks_managed_node_group_defaults = {
+    disk_size = 50
+  }
 
   eks_managed_node_groups = {
-    default = {
-      instance_types       = ["m5.large"]
-      force_update_version = true
-      release_version      = var.ami_release_version
-
-      min_size     = 3
-      max_size     = 6
-      desired_size = 3
-      
-      update_config = {
-        max_unavailable_percentage = 50
-      }
+    general = {
+      desired_size = 1
+      min_size     = 1
+      max_size     = 10
 
       labels = {
-        workshop-default = "yes"
+        role = "general"
       }
+
+      instance_types = ["t2.micro"]
+      capacity_type  = "ON_DEMAND"
+    }
+
+    spot = {
+      desired_size = 1
+      min_size     = 1
+      max_size     = 10
+
+      labels = {
+        role = "spot"
+      }
+
+      taints = [{
+        key    = "market"
+        value  = "spot"
+        effect = "NO_SCHEDULE"
+      }]
+
+      instance_types = ["t3.micro"]
+      capacity_type  = "SPOT"
     }
   }
 
-  tags = merge(local.tags, {
-    "karpenter.sh/discovery" = var.cluster_name
-  })
+  tags = {
+    Environment = "Eks-Production"
+  }
 }
