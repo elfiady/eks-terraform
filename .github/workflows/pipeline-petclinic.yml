@@ -39,11 +39,11 @@ jobs:
       run: terraform plan -no-color
       continue-on-error: true
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_2 }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
+    #- name: Terraform Apply
+    #  run: terraform apply -auto-approve
+     # env:
+      #  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_2 }}
+       # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
 
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
