@@ -18,6 +18,9 @@ output "kubectl_config" {
   value       = module.eks.kubeconfig
 }
 
+output "core_iam_role_arn" {
+  value = module.eks.eks_managed_node_groups["core"].iam_role_arn
+}
 
 output "config_map_aws_auth" {
   description = "A kubernetes configuration to authenticate to this EKS cluster."
