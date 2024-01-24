@@ -12,10 +12,6 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
- eks_managed_node_group_defaults = {
-    disk_size = 50
-  }
-
  workers_group_defaults = {
     root_volume_type = "gp2"
   }
@@ -36,6 +32,28 @@ module "eks" {
       asg_desired_capacity          = 1
     },
   ]
+
+  create_node_security_group    = false
+
+  eks_managed_node_groups = {
+    default = {
+      instance_types       = ["m5.large"]
+      force_update_version = true
+      release_version      = var.ami_release_version
+
+      min_size     = 3
+      max_size     = 6
+      desired_size = 3
+      
+      update_config = {
+        max_unavailable_percentage = 50
+      }
+
+      labels = {
+        workshop-default = "yes"
+      }
+    }
+  }
 }
 
 data "aws_eks_cluster" "cluster" {
