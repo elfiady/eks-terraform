@@ -17,11 +17,6 @@ output "core_iam_role_arn" {
   value = module.eks.eks_managed_node_groups["core"].iam_role_arn
 }
 
-output "config_map_aws_auth" {
-  description = "A kubernetes configuration to authenticate to this EKS cluster."
-  value       = module.eks.config_map_aws_auth
-}
-
 
 output "region" {
   description = "AWS region"
