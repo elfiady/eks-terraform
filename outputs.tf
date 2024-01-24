@@ -13,11 +13,6 @@ output "cluster_security_group_id" {
   value       = module.eks.cluster_security_group_id
 }
 
-output "core_iam_role_arn" {
-  value = module.eks.eks_managed_node_groups["core"].iam_role_arn
-}
-
-
 output "region" {
   description = "AWS region"
   value       = var.region
