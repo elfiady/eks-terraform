@@ -12,44 +12,27 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
- eks_managed_node_group_defaults = {
-    disk_size = 50
-  }
+ workers_group_defaults = {
+    root_volume_type = "gp2"
+  }
 
-  eks_managed_node_groups = {
-    general = {
-      desired_size = 1
-      min_size     = 1
-      max_size     = 10
-
-      labels = {
-        role = "general"
-      }
-
-      instance_types = ["t2.large"]
-      capacity_type  = "ON_DEMAND"
-    }
-
-    spot = {
-      desired_size = 1
-      min_size     = 1
-      max_size     = 10
-
-      labels = {
-        role = "spot"
-      }
-
-      taints = [{
-        key    = "market"
-        value  = "spot"
-        effect = "NO_SCHEDULE"
-      }]
-
-      instance_types = ["t2.large"]
-      capacity_type  = "SPOT"
-    }
-  }
-
+  worker_groups = [
+    {
+      name                          = "worker-group-1"
+      instance_type                 = "t2.small"
+      additional_userdata           = "echo foo bar"
+      asg_desired_capacity          = 1
+      additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
+    },
+    {
+      name                          = "worker-group-2"
+      instance_type                 = "t2.medium"
+      additional_userdata           = "echo foo bar"
+      additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
+      asg_desired_capacity          = 1
+    },
+  ]
+}
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
